@@ -271,7 +271,7 @@ export default function ForSale({ onNavigate, onOpenContactPanel }: ForSaleProps
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <div className="mb-6 md:mb-8 flex items-center justify-center space-x-3 md:space-x-4">
             <div className="h-px w-12 md:w-16 bg-[#ff1616]"></div>
-            <span className="text-xs md:text-sm tracking-[0.3em] text-gray-400 uppercase">{content?.searchAnotherVehicleQuestion}</span>
+            <span className="text-xs md:text-sm tracking-[0.3em] text-gray-400 uppercase">{parse(content?.searchAnotherVehicleQuestion)}</span>
             <div className="h-px w-12 md:w-16 bg-[#ff1616]"></div>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 md:mb-8 leading-tight">

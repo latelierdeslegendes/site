@@ -17,13 +17,13 @@ export default function Home({ onNavigate, onOpenContactPanel }: HomeProps) {
   const { vehicles: sanityFeaturedVehicles, loading: _vehiclesLoading } = useFeaturedVehicles();
 
   const iconMap: { [key: string]: any } = {
-    ShieldCheckIcon,
-    GlobeAltIcon,
-    HeartIcon,
-    WrenchIcon,
-    ClockIcon,
-    ArrowTrendingUpIcon,
-    StarIcon
+    "Garantie & Sécurité": ShieldCheckIcon,
+    "Réseau International": GlobeAltIcon,
+    "Passion Automobile":HeartIcon,
+    "Service Complet":WrenchIcon,
+    "Estimation & Rachat":ClockIcon,
+    "Sourcing sur-mesure":ArrowTrendingUpIcon,
+    "Résultats":StarIcon
   };
   
   const content = sanityContent ;
@@ -31,14 +31,14 @@ export default function Home({ onNavigate, onOpenContactPanel }: HomeProps) {
   if (sanityContent && content?.advantages?.items) {
     content.advantages.items = content.advantages.items.map((item: any) => ({
       ...item,
-      icon: iconMap[item.icon] || ShieldCheckIcon
+      icon: iconMap[item.title] || ShieldCheckIcon
     }));
   }
   
   if (sanityContent && content?.services?.items) {
     content.services.items = content.services.items.map((item: any) => ({
       ...item,
-      icon: iconMap[item.icon] || WrenchIcon
+      icon: iconMap[item.title] || WrenchIcon
     }));
   }
 
@@ -141,7 +141,7 @@ export default function Home({ onNavigate, onOpenContactPanel }: HomeProps) {
                   className="shadow-2xl transform hover:scale-[1.02] transition-transform duration-500"
                 />
               </div>
-              <div className="absolute -top-8 -left-8 w-full h-full border-2 border-[#ff1616]/20 -z-10"></div>
+              <div className="absolute -top-8 -left-[10px] w-full h-full border-2 border-[#ff1616]/20 -z-10"></div>
               <div className="absolute -bottom-8 -right-[11px] w-full h-full bg-black/5 -z-20"></div>
             </ScrollReveal>
             <ScrollReveal animation="slide-right" className="lg:col-span-3 order-1 lg:order-2">

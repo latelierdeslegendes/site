@@ -19,14 +19,12 @@ export default function Services({ onNavigate, onOpenContactPanel }: ServicesPro
   const { content: sanityContent, loading } = useServicesPageContent();
 
   const iconMap: { [key: string]: any } = {
-    BuildingStorefrontIcon,
-    MagnifyingGlassIcon,
-    ShieldCheckIcon,
-    WrenchIcon,
-    ArrowTrendingUpIcon,
-    DocumentTextIcon,
-    ClockIcon,
-    UsersIcon
+    "Dépôt-Vente":BuildingStorefrontIcon,
+    "Recherche":MagnifyingGlassIcon,
+    "Transparence totale":ShieldCheckIcon,
+    "Expertise":WrenchIcon,
+    "Réactivité":ClockIcon,
+    "Accompagnement personnalisé":UsersIcon
   };
 
   const content = sanityContent;
@@ -48,7 +46,7 @@ export default function Services({ onNavigate, onOpenContactPanel }: ServicesPro
   if (sanityContent && content?.trustIndicators) {
     content.trustIndicators = content.trustIndicators.map((item: any) => ({
       ...item,
-      icon: iconMap[item.icon] || UsersIcon
+      icon: iconMap[item.title] || UsersIcon
     }));
   }
 

@@ -16,12 +16,6 @@ export default function VehicleDetail({ vehicleId, onNavigate, onOpenContactPane
 
   const vehicleData = list.find((vehicle: any) => vehicle._id === vehicleId);
 
-  console.log({
-    vehicleId,
-    list,
-    vehicleData
-  })
-
   if (!vehicleData) {
     return (
       <div className="min-h-screen bg-white pt-20 flex items-center justify-center">

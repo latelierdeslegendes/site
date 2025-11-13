@@ -16,10 +16,10 @@ export default function About({ onNavigate, onOpenContactPanel }: AboutProps) {
   const { content: sanityContent, loading } = useAboutPageContent();
 
   const iconMap: { [key: string]: any } = {
-    HeartIcon,
-    TrophyIcon,
-    UsersIcon,
-    CheckCircleIcon
+    "Passion":HeartIcon,
+    "Excellence":TrophyIcon,
+    "Proximité":UsersIcon,
+    "Transparence":CheckCircleIcon
   };
 
   const content = sanityContent;
@@ -27,7 +27,7 @@ export default function About({ onNavigate, onOpenContactPanel }: AboutProps) {
   if (sanityContent && content?.values) {
     content.values = content.values.map((item: any) => ({
       ...item,
-      icon: iconMap[item.icon] || HeartIcon
+      icon: iconMap[item.title] || HeartIcon
     }));
   }
 
@@ -117,7 +117,7 @@ export default function About({ onNavigate, onOpenContactPanel }: AboutProps) {
                   referrerPolicy="no-referrer"
                   className="w-full shadow-2xl"
                 />
-                <div className="absolute -top-8 -left-8 w-full h-full border-2 border-[#ff1616]/20 -z-10"></div>
+                <div className="absolute -top-8 -left-[10px] w-full h-full border-2 border-[#ff1616]/20 -z-10"></div>
                 <div className="absolute -bottom-8 -right-[11px] w-full h-full bg-black/5 -z-20"></div>
               </div>
             </ScrollReveal>

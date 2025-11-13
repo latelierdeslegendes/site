@@ -26,7 +26,6 @@ function App() {
   const [isContactPanelOpen, setIsContactPanelOpen] = useState(false);
   const { contactDetails, loading } = useContactDetails();
   const { vehicles: vehicleData, loading: _vehiclesLoading } = useVehicles();
-  console.log(vehicleData)
 
   const handleNavigate = (page: string, vehicleId?: string) => {
     setCurrentPage(page);
@@ -66,7 +65,6 @@ function App() {
 
   useEffect(() => {
     const path = window.location.pathname;
-    console.log({ path })
     if (path === '/studio') {
       window.location.href = 'https://atelierdeslegendes.sanity.studio/';
     }

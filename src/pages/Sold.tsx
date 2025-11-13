@@ -269,7 +269,7 @@ export default function Sold({ onNavigate, onOpenContactPanel }: SoldProps) {
             {content?.successElements?.map((stat, index) => (
               <div
                 key={index}
-                className="group relative bg-black p-8 md:p-10 lg:p-12 border-b md:border-b-0 md:border-r border-gray-800 last:border-0 hover:bg-white hover:border hover:border-black transition-all duration-500"
+                className="group relative bg-black p-6 md:p-10 lg:p-12 border-b md:border-b-0 md:border-r border-gray-800 last:border-0 hover:bg-white hover:border hover:border-black transition-all duration-500"
               >
                 <div className="absolute top-8 md:top-10 right-8 md:right-10 text-6xl md:text-7xl lg:text-8xl font-bold text-white/10 group-hover:text-gray-100 transition-colors duration-500">
                   0{index + 1}
