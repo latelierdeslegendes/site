@@ -6,14 +6,21 @@ interface VehicleDetailProps {
   vehicleId?: string;
   onNavigate: (page: string, vehicleId?: string) => void;
   onOpenContactPanel?: () => void;
+  list?: any;
 }
 
-export default function VehicleDetail({ vehicleId, onNavigate, onOpenContactPanel }: VehicleDetailProps) {
+export default function VehicleDetail({ vehicleId, onNavigate, onOpenContactPanel, list }: VehicleDetailProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [openSection, setOpenSection] = useState<'description' | 'features' | 'services' | null>(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
-  const vehicleData = getVehicleById(vehicleId || '1');
+  const vehicleData = list.find((vehicle: any) => vehicle._id === vehicleId);
+
+  console.log({
+    vehicleId,
+    list,
+    vehicleData
+  })
 
   if (!vehicleData) {
     return (

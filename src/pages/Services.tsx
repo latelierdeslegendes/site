@@ -14,6 +14,7 @@ export default function Services({ onNavigate, onOpenContactPanel }: ServicesPro
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   const { content: sanityContent, loading } = useServicesPageContent();
 
@@ -51,16 +52,27 @@ export default function Services({ onNavigate, onOpenContactPanel }: ServicesPro
     }));
   }
 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (!isAutoPlaying) return;
 
+    const maxSlide = isMobile ? 5 : 1;
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev === 0 ? 1 : 0));
+      setCurrentSlide((prev) => (prev === maxSlide ? 0 : prev + 1));
     }, 5000);
 
     return () => clearInterval(timer);
-  }, [isAutoPlaying]);
+  }, [isAutoPlaying, isMobile]);
 
   const handleSlideChange = (index: number) => {
     setCurrentSlide(index);
@@ -68,12 +80,14 @@ export default function Services({ onNavigate, onOpenContactPanel }: ServicesPro
   };
 
   const handlePrevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? 1 : 0));
+    const maxSlide = isMobile ? 5 : 1;
+    setCurrentSlide((prev) => (prev === 0 ? maxSlide : prev - 1));
     setIsAutoPlaying(false);
   };
 
   const handleNextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % 2);
+    const maxSlide = isMobile ? 5 : 1;
+    setCurrentSlide((prev) => (prev === maxSlide ? 0 : prev + 1));
     setIsAutoPlaying(false);
   };
 
@@ -141,96 +155,164 @@ export default function Services({ onNavigate, onOpenContactPanel }: ServicesPro
           </div>
 
           <div className="relative">
-            {!isAutoPlaying && (
+            {(isMobile || !isAutoPlaying) && (
               <>
                 <button
                   onClick={handlePrevSlide}
-                  className="absolute -left-6 md:-left-8 lg:-left-12 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 bg-white hover:bg-[#ff1616] border-2 border-gray-200 hover:border-[#ff1616] flex items-center justify-center group transition-all duration-300 z-10 shadow-lg"
+                  className="absolute -left-3 md:-left-8 lg:-left-12 top-1/2 -translate-y-1/2 w-8 h-8 md:w-14 md:h-14 bg-white hover:bg-[#ff1616] border-2 border-gray-200 hover:border-[#ff1616] flex items-center justify-center group transition-all duration-300 z-10 shadow-lg"
                   aria-label="Slide précédent"
                 >
-                  <ChevronLeftIcon className="w-6 h-6 md:w-7 md:h-7 text-black group-hover:text-white transition-colors" />
+                  <ChevronLeftIcon className="w-4 h-4 md:w-7 md:h-7 text-black group-hover:text-white transition-colors" />
                 </button>
                 <button
                   onClick={handleNextSlide}
-                  className="absolute -right-6 md:-right-8 lg:-right-12 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 bg-white hover:bg-[#ff1616] border-2 border-gray-200 hover:border-[#ff1616] flex items-center justify-center group transition-all duration-300 z-10 shadow-lg"
+                  className="absolute -right-3 md:-right-8 lg:-right-12 top-1/2 -translate-y-1/2 w-8 h-8 md:w-14 md:h-14 bg-white hover:bg-[#ff1616] border-2 border-gray-200 hover:border-[#ff1616] flex items-center justify-center group transition-all duration-300 z-10 shadow-lg"
                   aria-label="Slide suivant"
                 >
-                  <ChevronRightIcon className="w-6 h-6 md:w-7 md:h-7 text-black group-hover:text-white transition-colors" />
+                  <ChevronRightIcon className="w-4 h-4 md:w-7 md:h-7 text-black group-hover:text-white transition-colors" />
                 </button>
               </>
             )}
 
             <div className="overflow-hidden">
-              <div className="flex transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-                {[0, 1].map((slideIndex) => (
-                  <div key={slideIndex} className="w-full flex-shrink-0">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                      {content.otherServices.services.slice(slideIndex * 3, slideIndex * 3 + 3).map((service, index) => (
-                        <div
-                          key={index}
-                          onClick={() => setIsAutoPlaying(false)}
-                          className="group bg-white border-2 border-gray-200 hover:border-[#ff1616] transition-all duration-500 overflow-hidden cursor-pointer"
-                        >
-                          <div className="relative overflow-hidden aspect-[4/3]">
-                            <img
-                              src={service.image}
-                              alt={service.title}
-                              referrerPolicy="no-referrer"
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
+              {isMobile ? (
+                <div className="flex transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+                  {content.otherServices.services.map((service, index) => (
+                    <div key={index} className="w-full flex-shrink-0 px-2">
+                      <div
+                        onClick={() => setIsAutoPlaying(false)}
+                        className="group bg-white border-2 border-gray-200 hover:border-[#ff1616] transition-all duration-500 overflow-hidden cursor-pointer"
+                      >
+                        <div className="relative overflow-hidden aspect-[4/3]">
+                          <img
+                            src={service.image}
+                            alt={service.title}
+                            referrerPolicy="no-referrer"
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
 
-                            <div className="absolute top-4 left-4 md:top-6 md:left-6">
-                              <div className="w-12 h-12 md:w-16 md:h-16 bg-[#ff1616] flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                                <service.icon className="w-6 h-6 md:w-8 md:h-8 text-white" />
-                              </div>
+                          <div className="absolute top-4 left-4">
+                            <div className="w-12 h-12 bg-[#ff1616] flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
+                              <service.icon className="w-6 h-6 text-white" />
                             </div>
                           </div>
-
-                          <div className="p-6 md:p-8 space-y-4 md:space-y-6">
-                            <h3 className="text-xl md:text-2xl font-bold group-hover:text-[#ff1616] transition-colors duration-300">
-                              {service.title}
-                            </h3>
-                            <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                              {service.description}
-                            </p>
-
-                            <ul className="space-y-2 md:space-y-3">
-                              {service.features.map((feature, fIndex) => (
-                                <li key={fIndex} className="flex items-start gap-2 md:gap-3 text-xs md:text-sm">
-                                  <CheckCircleIcon className="w-4 h-4 md:w-5 md:h-5 text-[#ff1616] flex-shrink-0 mt-0.5" />
-                                  <span className="text-gray-700">{feature}</span>
-                                </li>
-                              ))}
-                            </ul>
-
-                            <button
-                              onClick={onOpenContactPanel}
-                              className="group/btn w-full py-2.5 md:py-3 border-2 border-black text-black font-semibold hover:bg-black hover:text-white transition-all duration-300 flex items-center justify-center gap-2 text-sm md:text-base"
-                            >
-                              <span>En savoir plus</span>
-                              <ArrowRightIcon className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-2 transition-transform" />
-                            </button>
-                          </div>
                         </div>
-                      ))}
+
+                        <div className="p-6 space-y-4">
+                          <h3 className="text-xl font-bold group-hover:text-[#ff1616] transition-colors duration-300">
+                            {service.title}
+                          </h3>
+                          <p className="text-sm text-gray-600 leading-relaxed">
+                            {service.description}
+                          </p>
+
+                          <ul className="space-y-2">
+                            {service.features.map((feature, fIndex) => (
+                              <li key={fIndex} className="flex items-start gap-2 text-xs">
+                                <CheckCircleIcon className="w-4 h-4 text-[#ff1616] flex-shrink-0 mt-0.5" />
+                                <span className="text-gray-700">{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+
+                          <button
+                            onClick={onOpenContactPanel}
+                            className="group/btn w-full py-2.5 border-2 border-black text-black font-semibold hover:bg-black hover:text-white transition-all duration-300 flex items-center justify-center gap-2 text-sm"
+                          >
+                            <span>En savoir plus</span>
+                            <ArrowRightIcon className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+                  {[0, 1].map((slideIndex) => (
+                    <div key={slideIndex} className="w-full flex-shrink-0">
+                      <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                        {content.otherServices.services.slice(slideIndex * 3, slideIndex * 3 + 3).map((service, index) => (
+                          <div
+                            key={index}
+                            onClick={() => setIsAutoPlaying(false)}
+                            className="group bg-white border-2 border-gray-200 hover:border-[#ff1616] transition-all duration-500 overflow-hidden cursor-pointer"
+                          >
+                            <div className="relative overflow-hidden aspect-[4/3]">
+                              <img
+                                src={service.image}
+                                alt={service.title}
+                                referrerPolicy="no-referrer"
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
+
+                              <div className="absolute top-4 left-4 md:top-6 md:left-6">
+                                <div className="w-12 h-12 md:w-16 md:h-16 bg-[#ff1616] flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
+                                  <service.icon className="w-6 h-6 md:w-8 md:h-8 text-white" />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="p-6 md:p-8 space-y-4 md:space-y-6">
+                              <h3 className="text-xl md:text-2xl font-bold group-hover:text-[#ff1616] transition-colors duration-300">
+                                {service.title}
+                              </h3>
+                              <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+                                {service.description}
+                              </p>
+
+                              <ul className="space-y-2 md:space-y-3">
+                                {service.features.map((feature, fIndex) => (
+                                  <li key={fIndex} className="flex items-start gap-2 md:gap-3 text-xs md:text-sm">
+                                    <CheckCircleIcon className="w-4 h-4 md:w-5 md:h-5 text-[#ff1616] flex-shrink-0 mt-0.5" />
+                                    <span className="text-gray-700">{feature}</span>
+                                  </li>
+                                ))}
+                              </ul>
+
+                              <button
+                                onClick={onOpenContactPanel}
+                                className="group/btn w-full py-2.5 md:py-3 border-2 border-black text-black font-semibold hover:bg-black hover:text-white transition-all duration-300 flex items-center justify-center gap-2 text-sm md:text-base"
+                              >
+                                <span>En savoir plus</span>
+                                <ArrowRightIcon className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-2 transition-transform" />
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="flex justify-center items-center gap-3 mt-8 md:mt-12">
-              {[0, 1].map((index) => (
-                <button
-                  key={index}
-                  onClick={() => handleSlideChange(index)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    currentSlide === index ? 'w-12 bg-[#ff1616]' : 'w-2 bg-gray-300'
-                  }`}
-                  aria-label={`Slide ${index + 1}`}
-                />
-              ))}
+              {isMobile ? (
+                content.otherServices.services.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleSlideChange(index)}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      currentSlide === index ? 'w-12 bg-[#ff1616]' : 'w-2 bg-gray-300'
+                    }`}
+                    aria-label={`Slide ${index + 1}`}
+                  />
+                ))
+              ) : (
+                [0, 1].map((index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleSlideChange(index)}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      currentSlide === index ? 'w-12 bg-[#ff1616]' : 'w-2 bg-gray-300'
+                    }`}
+                    aria-label={`Slide ${index + 1}`}
+                  />
+                ))
+              )}
             </div>
           </div>
         </div>

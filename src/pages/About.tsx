@@ -42,7 +42,7 @@ export default function About({ onNavigate, onOpenContactPanel }: AboutProps) {
   if (loading) return <Loader />;
 
   return (
-    <div className="min-h-screen bg-white pt-20">
+    <div className="min-h-screen bg-white overflow-x-hiddern pt-20">
       {/* Hero Section - Asymmetric */}
       <section className="relative min-h-[50vh] flex items-center overflow-hidden bg-black">
         <div className="absolute inset-0">
@@ -118,7 +118,7 @@ export default function About({ onNavigate, onOpenContactPanel }: AboutProps) {
                   className="w-full shadow-2xl"
                 />
                 <div className="absolute -top-8 -left-8 w-full h-full border-2 border-[#ff1616]/20 -z-10"></div>
-                <div className="absolute -bottom-8 -right-8 w-full h-full bg-black/5 -z-20"></div>
+                <div className="absolute -bottom-8 -right-[11px] w-full h-full bg-black/5 -z-20"></div>
               </div>
             </ScrollReveal>
           </div>
@@ -152,7 +152,7 @@ export default function About({ onNavigate, onOpenContactPanel }: AboutProps) {
                 delay={index * 100}
               >
                 <div className="relative pl-20 md:pl-28 lg:pl-32 py-6 md:py-8 lg:py-10 border-l-2 border-white/20 last:border-l-transparent group">
-                  <div className="absolute left-0 top-6 md:top-8 lg:top-10 transform -translate-x-1/2">
+                  <div className="ml-4 absolute left-0 top-6 md:top-8 lg:top-10 transform -translate-x-1/2">
                     <div className={`w-14 h-14 md:w-16 md:h-16 lg:w-18 lg:h-18 ${index === 1 ? 'bg-orange-500' : index === 2 ? 'bg-green-500' : 'bg-[#ff1616]'} rounded-full flex items-center justify-center text-base md:text-lg lg:text-xl font-bold group-hover:scale-110 transition-transform duration-500`}>
                       {item.year}
                     </div>
@@ -251,18 +251,18 @@ export default function About({ onNavigate, onOpenContactPanel }: AboutProps) {
                 <div key={slideIndex} className="w-full flex-shrink-0">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                     {content?.testimonials?.slice(slideIndex * 3, slideIndex * 3 + 3).map((testimonial, index) => (
-                      <div key={index} className="group relative bg-white p-8 md:p-10 border-l-4 border-black hover:border-[#ff1616] transition-all duration-500 hover:shadow-2xl">
+                      <div key={index} className="group relative bg-white p-3 md:p-10 border-l-4 border-black hover:border-[#ff1616] transition-all duration-500 hover:shadow-2xl">
                         <div className="absolute top-6 md:top-8 right-6 md:right-8 text-5xl md:text-6xl text-[#ff1616] opacity-20 font-serif">"</div>
                         <div className="relative z-10 space-y-4 md:space-y-6">
                           <div className="flex gap-1">
                             {[...Array(testimonial.rating)].map((_, i) => (
-                              <StarIcon key={i} className="w-4 h-4 md:w-5 md:h-5 text-[#ff1616] fill-current" />
+                              <StarIcon key={i} className="w-3 h-3 md:w-5 md:h-5 text-[#ff1616] fill-current" />
                             ))}
                           </div>
-                          <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                          <p className="text-gray-700 text-base text-sm leading-relaxed md:text-lg">
                             {testimonial.comment}
                           </p>
-                          <div className="pt-4 md:pt-6 border-t border-gray-200">
+                          <div className="pt-2 md:pt-6 border-t border-gray-200">
                             <p className="font-bold text-base md:text-lg mb-1">{testimonial.name}</p>
                             <p className="text-sm text-gray-500 tracking-wide">{testimonial.vehicle}</p>
                           </div>

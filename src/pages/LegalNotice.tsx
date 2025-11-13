@@ -6,7 +6,7 @@ interface LegalNoticeProps {
 
 export default function LegalNotice({ onNavigate }: LegalNoticeProps) {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-x-hiddern">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
         <button
           onClick={() => onNavigate('home')}

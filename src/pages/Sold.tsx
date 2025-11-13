@@ -59,7 +59,7 @@ export default function Sold({ onNavigate, onOpenContactPanel }: SoldProps) {
   if (contentLoading || vehiclesLoading) return <Loader />;
 
   return (
-    <div className="min-h-screen bg-white pt-20">
+    <div className="min-h-screen bg-white overflow-x-hiddern pt-20">
       {/* Hero Section - Timeline Style */}
       <section className="relative min-h-[70vh] flex items-center overflow-hidden bg-gradient-to-br from-gray-900 to-black">
         <div className="absolute inset-0">

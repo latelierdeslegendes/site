@@ -52,7 +52,7 @@ export default function ForSale({ onNavigate, onOpenContactPanel }: ForSaleProps
   if (contentLoading || vehiclesLoading) return <Loader />;
 
   return (
-    <div className="min-h-screen bg-white pt-20">
+    <div className="min-h-screen bg-white overflow-x-hiddern pt-20">
       {/* Hero Section - Full Screen Split */}
       <section className="relative min-h-[70vh] flex items-end overflow-hidden bg-black">
         <div className="absolute inset-0">

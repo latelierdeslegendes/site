@@ -14,16 +14,19 @@ import LegalNotice from './pages/LegalNotice';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfSale from './pages/TermsOfSale';
 import { updateMetaTags, getOrganizationSchema, getBreadcrumbSchema, convertSanityToSEO } from './utils/seo';
-import { usePageSEO, useSiteSettings } from './hooks/useSanity';
+import { usePageSEO, useSiteSettings, useVehicles } from './hooks/useSanity';
 import { getPageSEO as getLocalPageSEO, siteSettings as localSiteSettings } from './data/seo';
 import { useContactDetails } from './hooks/useSanity';
 import Studio from './pages/Studio';
+import Loader from './components/Loader';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedVehicleId, setSelectedVehicleId] = useState<string | undefined>();
   const [isContactPanelOpen, setIsContactPanelOpen] = useState(false);
   const { contactDetails, loading } = useContactDetails();
+  const { vehicles: vehicleData, loading: _vehiclesLoading } = useVehicles();
+  console.log(vehicleData)
 
   const handleNavigate = (page: string, vehicleId?: string) => {
     setCurrentPage(page);
@@ -69,6 +72,7 @@ function App() {
     }
   }, []);
 
+
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
@@ -78,7 +82,7 @@ function App() {
       case 'for-sale':
         return <ForSale onNavigate={handleNavigate} onOpenContactPanel={() => setIsContactPanelOpen(true)} />;
       case 'vehicle-detail':
-        return <VehicleDetail vehicleId={selectedVehicleId} onNavigate={handleNavigate} onOpenContactPanel={() => setIsContactPanelOpen(true)} />;
+        return <VehicleDetail list={vehicleData} vehicleId={selectedVehicleId} onNavigate={handleNavigate} onOpenContactPanel={() => setIsContactPanelOpen(true)} />;
       case 'sold':
         return <Sold onNavigate={handleNavigate} onOpenContactPanel={() => setIsContactPanelOpen(true)} />;
       case 'services':
@@ -96,14 +100,16 @@ function App() {
     }
   };
 
+  if(_vehiclesLoading || loading) return <Loader />
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-x-hiddern">
       <Header
         currentPage={currentPage}
         onNavigate={handleNavigate}
         onOpenContactPanel={() => setIsContactPanelOpen(true)}
       />
-      <main className="fade-in">
+      <main className="fade-in overflow-x-hidden">
         {renderPage()}
       </main>
       {!loading && <Footer 

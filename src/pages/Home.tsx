@@ -2,12 +2,11 @@ import { ArrowRightIcon, ShieldCheckIcon, GlobeAltIcon, HeartIcon, WrenchIcon, C
 import ScrollReveal from '../components/ScrollReveal';
 import InstagramSection from '../components/InstagramSection';
 import { useState, useEffect } from 'react';
-import { vehicles } from '../data/vehicles';
 import { useHomePageContent, useFeaturedVehicles } from '../hooks/useSanity';
 import Loader from '../components/Loader';
 
 interface HomeProps {
-  onNavigate: (page: string, vehicleId?: string) => void;
+  onNavigate: (page: string, id?: string) => void;
   onOpenContactPanel?: () => void;
 }
 
@@ -52,7 +51,7 @@ export default function Home({ onNavigate, onOpenContactPanel }: HomeProps) {
         image: v.images && v.images.length > 0 ? v.images[0] : '',
         status: 'available'
       }))
-    : []
+    : []  
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -64,7 +63,7 @@ export default function Home({ onNavigate, onOpenContactPanel }: HomeProps) {
   if(_contentLoading || _vehiclesLoading ) return <Loader />
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-x-hiddern">
       <section className="relative min-h-screen flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <img
@@ -103,7 +102,7 @@ export default function Home({ onNavigate, onOpenContactPanel }: HomeProps) {
               >
                 <span className="relative z-10 flex items-center justify-center space-x-3">
                   <span>{content?.hero.cta.primary}</span>
-                  <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" />
+                  <ArrowRightIcon className="w-5 h-5 group-hoverr:translate-x-2 transition-transform duration-300" />
                 </span>
                 <div className="absolute inset-0 bg-[#ff1616] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
                 <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white z-20">
@@ -143,7 +142,7 @@ export default function Home({ onNavigate, onOpenContactPanel }: HomeProps) {
                 />
               </div>
               <div className="absolute -top-8 -left-8 w-full h-full border-2 border-[#ff1616]/20 -z-10"></div>
-              <div className="absolute -bottom-8 -right-8 w-full h-full bg-black/5 -z-20"></div>
+              <div className="absolute -bottom-8 -right-[11px] w-full h-full bg-black/5 -z-20"></div>
             </ScrollReveal>
             <ScrollReveal animation="slide-right" className="lg:col-span-3 order-1 lg:order-2">
               <div className="mb-4 md:mb-6">
@@ -260,7 +259,7 @@ export default function Home({ onNavigate, onOpenContactPanel }: HomeProps) {
       </section>
 
       <section className="py-16 md:py-24 lg:py-32 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto ml-[13px]">
           <div className="grid lg:grid-cols-2 gap-12 md:gap-16 lg:gap-20 items-start">
             <div className="lg:sticky lg:top-32">
               <div className="mb-6 md:mb-8">
@@ -282,7 +281,7 @@ export default function Home({ onNavigate, onOpenContactPanel }: HomeProps) {
                   className="group relative pl-16 md:pl-20 lg:pl-24 py-6 md:py-8 border-l-2 border-gray-200 hover:border-[#ff1616] transition-colors duration-500"
                 >
                   <div className="absolute left-0 top-6 md:top-8 transform -translate-x-1/2">
-                    <div className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-black group-hover:bg-[#ff1616] rounded-full flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-12">
+                    <div className="mx-2 w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-black group-hover:bg-[#ff1616] rounded-full flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-12">
                       <advantage.icon className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-white" />
                     </div>
                   </div>
@@ -416,18 +415,18 @@ export default function Home({ onNavigate, onOpenContactPanel }: HomeProps) {
                 <div key={slideIndex} className="w-full flex-shrink-0">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                     {content?.testimonials.items.slice(slideIndex * 3, slideIndex * 3 + 3).map((testimonial, index) => (
-                      <div key={index} className="group relative bg-white p-8 md:p-10 border-l-4 border-black hover:border-[#ff1616] transition-all duration-500 hover:shadow-2xl">
+                      <div key={index} className="group relative bg-white p-3 md:p-10 border-l-4 border-black hover:border-[#ff1616] transition-all duration-500 hover:shadow-2xl">
                         <div className="absolute top-6 md:top-8 right-6 md:right-8 text-5xl md:text-6xl text-[#ff1616] opacity-20 font-serif">"</div>
                         <div className="relative z-10 space-y-4 md:space-y-6">
                           <div className="flex gap-1">
                             {[...Array(testimonial.rating)].map((_, i) => (
-                              <StarIcon key={i} className="w-4 h-4 md:w-5 md:h-5 text-[#ff1616] fill-current" />
+                              <StarIcon key={i} className="w-3 h-3 md:w-5 md:h-5 text-[#ff1616] fill-current" />
                             ))}
                           </div>
-                          <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                          <p className="text-gray-700 text-base text-sm leading-relaxed md:text-lg">
                             {testimonial.comment}
                           </p>
-                          <div className="pt-4 md:pt-6 border-t border-gray-200">
+                          <div className="pt-2 md:pt-6 border-t border-gray-200">
                             <p className="font-bold text-base md:text-lg mb-1">{testimonial.name}</p>
                             <p className="text-sm text-gray-500 tracking-wide">{testimonial.vehicle}</p>
                           </div>
