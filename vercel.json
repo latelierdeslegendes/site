@@ -1,13 +1,6 @@
 {
-  "functions": {
-    "api/**/*.js": {
-      "runtime": "nodejs18.x"
-    }
-  },
   "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "/api/:path*"
-    }
+    { "source": "/api/:path*", "destination": "https://api.resend.com/:path*" },
+    { "source": "/(.*)", "destination": "/" }
   ]
 }
