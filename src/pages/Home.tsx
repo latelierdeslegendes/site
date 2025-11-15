@@ -64,7 +64,7 @@ export default function Home({ onNavigate, onOpenContactPanel }: HomeProps) {
   useEffect(() => {
     const handleScroll = () => {
       const y = window.scrollY || window.pageYOffset || 0;
-      setLockOverflowX(y >= 0 && y <= 120);
+      setLockOverflowX(y >= 0 && y <= 220);
     };
 
     handleScroll();
