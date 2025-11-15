@@ -12,6 +12,7 @@ interface HomeProps {
 
 export default function Home({ onNavigate, onOpenContactPanel }: HomeProps) {
   const [currentTestimonialSlide, setCurrentTestimonialSlide] = useState(0);
+  const [lockOverflowX, setLockOverflowX] = useState(true);
   
   const { content: sanityContent, loading: _contentLoading } = useHomePageContent();
   const { vehicles: sanityFeaturedVehicles, loading: _vehiclesLoading } = useFeaturedVehicles();
@@ -60,10 +61,21 @@ export default function Home({ onNavigate, onOpenContactPanel }: HomeProps) {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const y = window.scrollY || window.pageYOffset || 0;
+      setLockOverflowX(y >= 0 && y <= 120);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   if(_contentLoading || _vehiclesLoading ) return <Loader />
 
   return (
-    <div className="min-h-screen bg-white overflow-x-hiddern">
+    <div className={`min-h-screen bg-white ${lockOverflowX ? 'overflow-x-hidden' : ''}`}>
       <section className="relative min-h-screen flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <img

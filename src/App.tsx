@@ -85,6 +85,8 @@ function App() {
         return <Sold onNavigate={handleNavigate} onOpenContactPanel={() => setIsContactPanelOpen(true)} />;
       case 'services':
         return <Services onNavigate={handleNavigate} onOpenContactPanel={() => setIsContactPanelOpen(true)} />;
+      case 'services-faq':
+        return <Services faq={true} onNavigate={handleNavigate} onOpenContactPanel={() => setIsContactPanelOpen(true)} />;
       case 'legal-notice':
         return <LegalNotice onNavigate={handleNavigate} />;
       case 'privacy-policy':
@@ -107,7 +109,7 @@ function App() {
         onNavigate={handleNavigate}
         onOpenContactPanel={() => setIsContactPanelOpen(true)}
       />
-      <main className="fade-in overflow-x-hidden">
+      <main className="fade-in overflow-x-hiddeen">
         {renderPage()}
       </main>
       {!loading && <Footer 

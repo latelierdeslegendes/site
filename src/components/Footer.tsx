@@ -14,7 +14,7 @@ export default function Footer({ onNavigate, onOpenContactPanel, contactDetails,
 
   return (
     <footer className="bg-black text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div className="col-span-1 md:col-span-2">
             <img
@@ -56,7 +56,7 @@ export default function Footer({ onNavigate, onOpenContactPanel, contactDetails,
                 { name: 'À vendre', id: 'for-sale' },
                 { name: 'Déjà vendus', id: 'sold' },
                 { name: 'Services', id: 'services' },
-                { name: 'FAQ', id: 'faq' },
+                { name: 'FAQ', id: 'services-faq' },
               ].map((item) => (
                 <li key={item.id}>
                   <button
@@ -124,7 +124,7 @@ export default function Footer({ onNavigate, onOpenContactPanel, contactDetails,
             <span>by Vasseo</span>
           </a>
 
-          <div className="flex space-x-6 text-sm">
+          <div className="flex gap-3 text-sm">
             <button
               onClick={() => handleNavClick('legal-notice')}
               className="text-gray-400 hover:text-[#ff1616] transition-colors"

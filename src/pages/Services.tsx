@@ -8,9 +8,10 @@ import Loader from '../components/Loader';
 interface ServicesProps {
   onNavigate: (page: string) => void;
   onOpenContactPanel?: () => void;
+  faq?: boolean;
 }
 
-export default function Services({ onNavigate, onOpenContactPanel }: ServicesProps) {
+export default function Services({ onNavigate, onOpenContactPanel, faq }: ServicesProps) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -71,6 +72,17 @@ export default function Services({ onNavigate, onOpenContactPanel }: ServicesPro
 
     return () => clearInterval(timer);
   }, [isAutoPlaying, isMobile]);
+
+  useEffect(() => {
+    if (faq) {
+      setTimeout(() => {
+        const faqEl = document.getElementById('faq');
+        if (faqEl) {
+          faqEl.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 200);
+    }
+  }, [faq])
 
   const handleSlideChange = (index: number) => {
     setCurrentSlide(index);
@@ -357,7 +369,7 @@ export default function Services({ onNavigate, onOpenContactPanel }: ServicesPro
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16 md:py-24 lg:py-32 px-4 bg-white">
+      <section className="py-16 md:py-24 lg:py-32 px-4 bg-white" id="faq">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12 md:mb-16 lg:mb-20">
             <div className="flex items-center justify-center space-x-3 md:space-x-4 mb-4 md:mb-6">
