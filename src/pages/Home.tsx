@@ -271,7 +271,7 @@ export default function Home({ onNavigate, onOpenContactPanel }: HomeProps) {
       </section>
 
       <section className="py-16 md:py-24 lg:py-32 px-4 bg-white">
-        <div className="max-w-7xl mx-auto ml-[13px]">
+        <div className="max-w-7xl mx-auto pl-[13px]">
           <div className="grid lg:grid-cols-2 gap-12 md:gap-16 lg:gap-20 items-start">
             <div className="lg:sticky lg:top-32">
               <div className="mb-6 md:mb-8">

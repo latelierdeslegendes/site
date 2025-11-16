@@ -16,19 +16,21 @@ export default function Services({ onNavigate, onOpenContactPanel, faq }: Servic
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
   const { content: sanityContent, loading } = useServicesPageContent();
 
   const iconMap: { [key: string]: any } = {
-    "Dépôt-Vente":BuildingStorefrontIcon,
-    "Recherche":MagnifyingGlassIcon,
-    "Transparence totale":ShieldCheckIcon,
-    "Expertise":WrenchIcon,
-    "Réactivité":ClockIcon,
-    "Accompagnement personnalisé":UsersIcon
+    'Dépôt-Vente': BuildingStorefrontIcon,
+    Recherche: MagnifyingGlassIcon,
+    'Transparence totale': ShieldCheckIcon,
+    Expertise: WrenchIcon,
+    Réactivité: ClockIcon,
+    'Accompagnement personnalisé': UsersIcon
   };
 
-  const content = sanityContent;
+  const content: any = sanityContent;
 
   if (sanityContent && content?.depotVente) {
     content.depotVente = {
@@ -65,13 +67,13 @@ export default function Services({ onNavigate, onOpenContactPanel, faq }: Servic
   useEffect(() => {
     if (!isAutoPlaying) return;
 
-    const maxSlide = isMobile ? 5 : 1;
+    const maxSlide = isMobile && content?.otherServices?.services ? content.otherServices.services.length - 1 : 1;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev === maxSlide ? 0 : prev + 1));
     }, 5000);
 
     return () => clearInterval(timer);
-  }, [isAutoPlaying, isMobile]);
+  }, [isAutoPlaying, isMobile, content?.otherServices?.services]);
 
   useEffect(() => {
     if (faq) {
@@ -82,7 +84,7 @@ export default function Services({ onNavigate, onOpenContactPanel, faq }: Servic
         }
       }, 200);
     }
-  }, [faq])
+  }, [faq]);
 
   const handleSlideChange = (index: number) => {
     setCurrentSlide(index);
@@ -90,18 +92,44 @@ export default function Services({ onNavigate, onOpenContactPanel, faq }: Servic
   };
 
   const handlePrevSlide = () => {
-    const maxSlide = isMobile ? 5 : 1;
+    const maxSlide = isMobile && content?.otherServices?.services ? content.otherServices.services.length - 1 : 1;
     setCurrentSlide((prev) => (prev === 0 ? maxSlide : prev - 1));
     setIsAutoPlaying(false);
   };
 
   const handleNextSlide = () => {
-    const maxSlide = isMobile ? 5 : 1;
+    const maxSlide = isMobile && content?.otherServices?.services ? content.otherServices.services.length - 1 : 1;
     setCurrentSlide((prev) => (prev === maxSlide ? 0 : prev + 1));
     setIsAutoPlaying(false);
   };
 
-  if (loading) return <Loader />;
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const minSwipeDistance = 50;
+
+    if (distance > minSwipeDistance) {
+      handleNextSlide();
+    }
+
+    if (distance < -minSwipeDistance) {
+      handlePrevSlide();
+    }
+
+    setTouchStart(0);
+    setTouchEnd(0);
+  };
+
+  if (loading || !content) return <Loader />;
 
   return (
     <div className="min-h-screen bg-white pt-20">
@@ -135,7 +163,7 @@ export default function Services({ onNavigate, onOpenContactPanel, faq }: Servic
 
             <div className="bg-white/10 backdrop-blur-sm p-6 md:p-8 lg:p-10 border-2 border-white/20">
               <ul className="space-y-2.5 md:space-y-3">
-                {content.depotVente.features.slice(0, 6).map((feature, index) => (
+                {content.depotVente.features.slice(0, 6).map((feature: string, index: number) => (
                   <li key={index} className="flex items-start gap-2.5 text-white">
                     <CheckCircleIcon className="w-5 h-5 text-[#ff1616] flex-shrink-0 mt-0.5" />
                     <span className="text-sm md:text-base">{feature}</span>
@@ -186,8 +214,14 @@ export default function Services({ onNavigate, onOpenContactPanel, faq }: Servic
 
             <div className="overflow-hidden">
               {isMobile ? (
-                <div className="flex transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-                  {content.otherServices.services.map((service, index) => (
+                <div
+                  className="flex transition-transform duration-700 ease-in-out"
+                  style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                  onTouchStart={handleTouchStart}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={handleTouchEnd}
+                >
+                  {content.otherServices.services.map((service: any, index: number) => (
                     <div key={index} className="w-full flex-shrink-0 px-2">
                       <div
                         onClick={() => setIsAutoPlaying(false)}
@@ -243,7 +277,7 @@ export default function Services({ onNavigate, onOpenContactPanel, faq }: Servic
                   {[0, 1].map((slideIndex) => (
                     <div key={slideIndex} className="w-full flex-shrink-0">
                       <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                        {content.otherServices.services.slice(slideIndex * 3, slideIndex * 3 + 3).map((service, index) => (
+                        {content.otherServices.services.slice(slideIndex * 3, slideIndex * 3 + 3).map((service: any, index: number) => (
                           <div
                             key={index}
                             onClick={() => setIsAutoPlaying(false)}
@@ -274,7 +308,7 @@ export default function Services({ onNavigate, onOpenContactPanel, faq }: Servic
                               </p>
 
                               <ul className="space-y-2 md:space-y-3">
-                                {service.features.map((feature, fIndex) => (
+                                {service.features.map((feature: string, fIndex: number) => (
                                   <li key={fIndex} className="flex items-start gap-2 md:gap-3 text-xs md:text-sm">
                                     <CheckCircleIcon className="w-4 h-4 md:w-5 md:h-5 text-[#ff1616] flex-shrink-0 mt-0.5" />
                                     <span className="text-gray-700">{feature}</span>
@@ -301,7 +335,7 @@ export default function Services({ onNavigate, onOpenContactPanel, faq }: Servic
 
             <div className="flex justify-center items-center gap-3 mt-8 md:mt-12">
               {isMobile ? (
-                content.otherServices.services.map((_, index) => (
+                content.otherServices.services.map((_: any, index: number) => (
                   <button
                     key={index}
                     onClick={() => handleSlideChange(index)}
@@ -343,20 +377,16 @@ export default function Services({ onNavigate, onOpenContactPanel, faq }: Servic
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 md:gap-0">
-            {content.trustIndicators.map((item, index) => (
+            {content.trustIndicators.map((item: any, index: number) => (
               <div
                 key={index}
                 className="group relative p-8 md:p-10 lg:p-12 border md:border-r border-white/20 md:last:border-r-0 hover:bg-white/5 transition-all duration-500"
               >
-                <div
-                  className={`absolute top-8 md:top-10 right-8 md:right-10 opacity-5 group-hover:opacity-10 transition-opacity`}
-                >
+                <div className="absolute top-8 md:top-10 right-8 md:right-10 opacity-5 group-hover:opacity-10 transition-opacity">
                   <item.icon className="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32" />
                 </div>
                 <div className="relative z-10 space-y-4 md:space-y-6 text-center">
-                  <div
-                    className={`inline-flex w-16 h-16 md:w-18 md:h-18 lg:w-20 lg:h-20 bg-[#ff1616] items-center justify-center group-hover:scale-110 transition-transform duration-500`}
-                  >
+                  <div className="inline-flex w-16 h-16 md:w-18 md:h-18 lg:w-20 lg:h-20 bg-[#ff1616] items-center justify-center group-hover:scale-110 transition-transform duration-500">
                     <item.icon className="w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 text-white" />
                   </div>
                   <h3 className="text-xl md:text-2xl font-bold">{item.title}</h3>
@@ -386,7 +416,7 @@ export default function Services({ onNavigate, onOpenContactPanel, faq }: Servic
           </div>
 
           <div className="space-y-4">
-            {content.faqs.map((faq, index) => (
+            {content.faqs.map((faq: any, index: number) => (
               <div
                 key={index}
                 className="group border-2 border-gray-200 hover:border-[#ff1616] transition-all duration-300 overflow-hidden"
@@ -437,23 +467,25 @@ export default function Services({ onNavigate, onOpenContactPanel, faq }: Servic
       <section className="py-16 md:py-24 lg:py-32 px-4 bg-gradient-to-br from-gray-900 to-black text-white">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 md:mb-8 leading-tight">
-            {parse(content.ctaTitle)}
+            Prêt à démarrer<br />
+            votre projet ?
           </h2>
           <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-8 md:mb-12 leading-relaxed">
-            {parse(content.ctaDescription)}
+            Contactez-nous dès aujourd'hui pour discuter de vos besoins et découvrir comment
+            nous pouvons vous aider
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               onClick={onOpenContactPanel}
               className="px-8 md:px-12 py-4 md:py-6 bg-[#ff1616] text-white font-semibold text-base md:text-lg hover:bg-white hover:text-black transition-all duration-300"
             >
-              {parse(content.ctaButtonLabel1)}
+              Nous contacter
             </button>
             <button
               onClick={() => onNavigate('for-sale')}
               className="px-8 md:px-12 py-4 md:py-6 border-2 border-white text-white font-semibold text-base md:text-lg hover:bg-white hover:text-black transition-all duration-300"
             >
-              {parse(content.ctaButtonLabel2)}
+              Voir nos véhicules
             </button>
           </div>
         </div>
