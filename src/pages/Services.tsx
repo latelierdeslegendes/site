@@ -75,16 +75,20 @@ export default function Services({ onNavigate, onOpenContactPanel, faq }: Servic
     return () => clearInterval(timer);
   }, [isAutoPlaying, isMobile, content?.otherServices?.services]);
 
-  useEffect(() => {
-    if (faq) {
-      setTimeout(() => {
-        const faqEl = document.getElementById('faq');
-        if (faqEl) {
-          faqEl.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 200);
-    }
-  }, [faq]);
+useEffect(() => {
+  if (faq) {
+    setTimeout(() => {
+      const faqEl = document.getElementById('faq');
+      if (faqEl) {
+        const top = faqEl.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({
+          top: top - 30, // scroll 30px above the element
+          behavior: 'smooth',
+        });
+      }
+    }, 500);
+  }
+}, [faq]);
 
   const handleSlideChange = (index: number) => {
     setCurrentSlide(index);
