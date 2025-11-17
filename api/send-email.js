@@ -27,8 +27,8 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         from: "noreply@latelier-des-legendes.fr",
-        to: "latelier.des.legendes78@gmail.com",
-        subject: "Nouveau lead - L'Atelier des Légendes",
+        to: "contact@latelier-des-legendes.fr",
+        subject: `Prise de contact - ${subject}`,
         html,
       }),
     });
