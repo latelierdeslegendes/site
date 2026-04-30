@@ -178,7 +178,7 @@ export default function TermsOfSale({ onNavigate }: TermsOfSaleProps) {
 
             <h3 className="text-xl font-semibold mb-3 text-black">8.1. Lieu de livraison</h3>
             <p className="text-gray-700">
-              Par défaut, le véhicule est à retirer au siège social du Vendeur : 19 MapIcon de Gambais, 78550 Bazainville, France.
+              Par défaut, le véhicule est à retirer au siège social du Vendeur : Yvelines, France.
             </p>
             <p className="text-gray-700 mt-4">
               Une livraison peut être organisée à la demande de l'Acheteur, moyennant des frais supplémentaires à définir selon la distance et
