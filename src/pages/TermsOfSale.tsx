@@ -379,8 +379,7 @@ export default function TermsOfSale({ onNavigate }: TermsOfSaleProps) {
             </p>
             <div className="text-gray-700 space-y-2">
               <p><strong>L'Atelier Des Légendes</strong></p>
-              <p>19 MapIcon de Gambais</p>
-              <p>78550 Bazainville, France</p>
+              <p>Yvelines, France</p>
               <p>Email : contact@latelier-des-legendes.fr</p>
               <p>Téléphone : 06 68 44 63 79</p>
               <p>Horaires : Lundi-Samedi : 9h-18h30 | Dimanche : Fermé</p>
