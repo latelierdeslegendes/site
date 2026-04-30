@@ -77,7 +77,7 @@ export default function Footer({ onNavigate, onOpenContactPanel, contactDetails,
                 <MapPinIcon className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
                 <span className="text-gray-400">
                   Sur rendez-vous<br />
-                  Yvelines, France
+                  Yvelines, France   
                 </span>
               </li>
               <li className="flex items-center space-x-3">
