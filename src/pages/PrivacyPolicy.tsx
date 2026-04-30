@@ -36,7 +36,7 @@ export default function PrivacyPolicy({ onNavigate }: PrivacyPolicyProps) {
             <h2 className="text-2xl font-bold mb-4 text-black">2. Responsable du traitement</h2>
             <div className="text-gray-700 space-y-2">
               <p><strong>Raison sociale :</strong> L'Atelier Des Légendes</p>
-              <p><strong>Adresse :</strong> 19 MapIcon de Gambais, 78550 Bazainville, France</p>
+              <p><strong>Adresse :</strong> Yvelines, France</p>
               <p><strong>Email :</strong> contact@latelier-des-legendes.fr</p>
               <p><strong>Téléphone :</strong> 06 68 44 63 79</p>
             </div>
