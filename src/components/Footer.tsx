@@ -76,8 +76,8 @@ export default function Footer({ onNavigate, onOpenContactPanel, contactDetails,
               <li className="flex items-start space-x-3">
                 <MapPinIcon className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
                 <span className="text-gray-400">
-                  19 Route de Gambais<br />
-                  78550 Bazainville, France
+                  Sur rendez-vous<br />
+                  Yvelines, France
                 </span>
               </li>
               <li className="flex items-center space-x-3">
