@@ -37,7 +37,7 @@ export default function TermsOfSale({ onNavigate }: TermsOfSaleProps) {
             <div className="text-gray-700 space-y-2">
               <p><strong>Raison sociale :</strong> L'Atelier Des Légendes</p>
               <p><strong>Forme juridique :</strong> Entreprise individuelle</p>
-              <p><strong>Siège social :</strong> 19 MapIcon de Gambais, 78550 Bazainville, France</p>
+              <p><strong>Siège social :</strong> Yvelines, France</p>
               <p><strong>Téléphone :</strong> 06 68 44 63 79</p>
               <p><strong>Email :</strong> contact@latelier-des-legendes.fr</p>
             </div>
